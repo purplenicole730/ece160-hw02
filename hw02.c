@@ -7,21 +7,29 @@ Prints the sizes and possible ranges of four integer data types.
 void print_int_ranges() {
   // These are made up numbers that will not be correct on most systems!
   // TODO correctly compute these values! 
-  int short_bytes = 2, int_bytes = 4, uint_bytes = 4, long_bytes = 4;
+  
+  char short_bytes = sizeof(short);
+  char int_bytes = sizeof(int);
+  char uint_bytes = sizeof(unsigned int);
+  char long_bytes = sizeof(long int);
+  
+  short short_min = 1 << (short_bytes * 8 - 1);
+  short short_max = ~short_min;
+  long int_min = 1 << (int_bytes * 8 - 1);
+  long int_max = ~int_min;
+  unsigned int uint_min = 0; 
+  unsigned int uint_max = ~uint_min;
+  long long_min = 1L << (long_bytes * 8 - 1);
+  long long_max = ~long_min;
 
-  long  short_min = -32768,       short_max = 32767;
-  long  int_min   = -2147483648L, int_max   = 2147483647L;
-  long  uint_min  = 0,            uint_max  = 1 << (int_bytes * 8 - 1);
-  long  long_min  = -2147483648L, long_max  = 2147483647L;
-
-  // Keep these exact printf commands :)   
-  printf("short is %d bytes or %d bits and ranges from %ld to %ld\n",
+   // Keep these exact printf commands :)   
+  printf("short is %d bytes or %d bits and ranges from %d to %d\n",
          short_bytes, short_bytes * 8, short_min, short_max);
-  printf("int is %d bytes or %d bits and ranges from %ld to %ld\n",
+  printf("int is %d bytes or %d bits and ranges from %d to %d\n",
          int_bytes, int_bytes * 8, int_min, int_max);
   printf("long is %d bytes or %d bits and ranges from %ld to %ld\n",
          long_bytes, long_bytes * 8, long_min, long_max);
-  printf("unsigned int is %d bytes or %d bits and ranges from %ld to %ld\n",
+  printf("unsigned int is %d bytes or %d bits and ranges from %u to %u\n",
          uint_bytes, uint_bytes * 8, uint_min, uint_max);
 }
 
@@ -35,10 +43,12 @@ int is_bit_set(unsigned char v, unsigned char i) {
     fprintf(stderr, "Index out of range!\n");
     return 0;
   }
-
-  /*
-  TODO your implementation goes here!
-  */
+  
+  char mask = 1 << i;
+ 
+  if (v & mask) {
+      return 1;
+  }
 
   return 0;
 }
